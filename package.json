@@ -1,10 +1,10 @@
 {
   "name": "Expense_traker",
-  "module": "server/index.ts",
+  "module": "server/app.ts",
   "type": "module",
   "scripts": {
     "dev": "bun --watch run server/app.ts",
-    "start": "bun server/index.js"
+    "start": "bun server/app.js"
   },
   "devDependencies": {
     "@types/bun": "latest"
