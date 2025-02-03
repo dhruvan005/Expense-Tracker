@@ -11,8 +11,10 @@ app.use('/api/*', cors())
 
 //  for always running the client app 
 
-app.route("api/expenses", expensesRoute)
+const apiRoutes = app.basePath("/api").route("/expenses", expensesRoute)
+
 app.use('*', serveStatic({ root: './client/dist' }))
 app.get('*', serveStatic({ path: './client/dist/index.html' }))
 
 export default app
+export type ApiRoutes = typeof apiRoutes;
