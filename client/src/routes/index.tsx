@@ -1,14 +1,19 @@
-import "./App.css";
+import { createFileRoute } from '@tanstack/react-router'
+
+export const Route = createFileRoute('/')({
+  component: App,
+})
+
+
 
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { api } from "./lib/api";
+import { api } from "../lib/api";
 import { useQuery } from "@tanstack/react-query";
 
 async function getTotalSpent() {
@@ -65,4 +70,5 @@ function App() {
   );
 }
 
-export default App;
+
+
