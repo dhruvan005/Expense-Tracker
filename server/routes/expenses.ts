@@ -6,6 +6,7 @@ const expanseSchema = z.object({
     id: z.number().int().positive().min(1),
     title: z.string().min(3).max(100),
     amount: z.number().int().positive(),
+    method : z.string()
 })
 
 type Expense = z.infer<typeof expanseSchema>
@@ -13,11 +14,11 @@ type Expense = z.infer<typeof expanseSchema>
 const createPostSchema = expanseSchema.omit({ id: true })
 
 const fakeExpenses: Expense[] = [
-    { id: 1, title: "Groceries", amount: 100 },
-    { id: 2, title: "Rent", amount: 1000 },
-    { id: 3, title: "Internet", amount: 50 },
-    { id: 4, title: "Electricity", amount: 150 },
-    { id: 5, title: "Water", amount: 20 },
+    { id: 1, title: "Groceries", amount: 100 , method : "upi"},
+    { id: 2, title: "Rent", amount: 1000 , method : "card"},
+    { id: 3, title: "Internet", amount: 50 , method : "cash"},
+    { id: 4, title: "Electricity", amount: 150 , method : "upi"},
+    { id: 5, title: "Water", amount: 20 , method : "card"},
 ]
 
 export const expensesRoute = new Hono()
@@ -33,7 +34,6 @@ export const expensesRoute = new Hono()
 
         const expense = await c.req.valid("json")
         fakeExpenses.push({ ...expense, id: fakeExpenses.length + 1 })
-
         return c.json(fakeExpenses)
     })
     .get("/:id{[0-9]+}", async (c) => {
