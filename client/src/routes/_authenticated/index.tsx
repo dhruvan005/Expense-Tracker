@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/')({
+export const Route = createFileRoute('/_authenticated/')({
   component: App,
 })
 import {
@@ -9,28 +9,28 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { api } from "../lib/api";
-import { useQuery } from "@tanstack/react-query";
+} from '@/components/ui/card'
+import { api } from '@/lib/api'
+import { useQuery } from '@tanstack/react-query'
 
 async function getTotalSpent() {
-  const res = await api.expenses["totalSpent"].$get();
+  const res = await api.expenses['totalSpent'].$get()
   if (!res.ok) {
-    throw new Error("Failed to fetch total spent");
+    throw new Error('Failed to fetch total spent')
   }
-  const data = await res.json();
-  return data;
+  const data = await res.json()
+  return data
 }
 
 function App() {
   // useQuery is a hook that is used to fetch data from the server
   const { isPending, isError, data, error } = useQuery({
-    queryKey: ["totalSpent"],
+    queryKey: ['totalSpent'],
     queryFn: getTotalSpent,
-  });
+  })
 
   if (isError) {
-    return <span>Error: {error.message}</span>;
+    return <span>Error: {error.message}</span>
   }
   // const [totalSpent, setTotalSpent] = useState(0);
   // useEffect(() => {
@@ -59,13 +59,10 @@ function App() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            Amount : {isPending ? "Loading.." : data.totalSpent}
+            Amount : {isPending ? 'Loading..' : data.totalSpent}
           </CardContent>
         </Card>
       </div>
     </>
-  );
+  )
 }
-
-
-

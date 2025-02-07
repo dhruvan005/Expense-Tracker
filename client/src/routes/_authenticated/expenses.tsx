@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from '@tanstack/react-router'
 import {
   Table,
   TableBody,
@@ -7,46 +7,46 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { Skeleton } from "@/components/ui/skeleton";
-import { api } from "../lib/api";
-import { useQuery } from "@tanstack/react-query";
+} from '@/components/ui/table'
+import { Skeleton } from '@/components/ui/skeleton'
+import { api } from '@/lib/api'
+import { useQuery } from '@tanstack/react-query'
 
-export const Route = createFileRoute("/expenses")({
+export const Route = createFileRoute('/_authenticated/expenses')({
   component: Expenses,
-});
+})
 
 async function getAllExpenses() {
-  const res = await api.expenses.$get();
+  const res = await api.expenses.$get()
   if (!res.ok) {
-    throw new Error("Failed to fetch total spent");
+    throw new Error('Failed to fetch total spent')
   }
-  const data = await res.json();
-  return data;
+  const data = await res.json()
+  return data
 }
 
 function Expenses() {
   const { isPending, isError, data, error } = useQuery({
-    queryKey: ["getAllExpenses"],
+    queryKey: ['getAllExpenses'],
     queryFn: getAllExpenses,
-  });
+  })
 
   if (isError) {
-    return <span>Error: {error.message}</span>;
+    return <span>Error: {error.message}</span>
   }
 
   const getMethodColor = (method: string) => {
     switch (method.toLowerCase()) {
-      case "upi":
-        return "bg-red-500/20 hover:bg-red-500/30";
-      case "cash":
-        return "bg-green-500/20 hover:bg-green-500/30";
-      case "card":
-        return "bg-blue-500/20 hover:bg-blue-500/30";
+      case 'upi':
+        return 'bg-red-500/20 hover:bg-red-500/30'
+      case 'cash':
+        return 'bg-green-500/20 hover:bg-green-500/30'
+      case 'card':
+        return 'bg-blue-500/20 hover:bg-blue-500/30'
       default:
-        return "bg-gray-500/20 hover:bg-gray-500/30";
+        return 'bg-gray-500/20 hover:bg-gray-500/30'
     }
-  };
+  }
 
   return (
     <>
@@ -103,5 +103,5 @@ function Expenses() {
         </TableBody>
       </Table>
     </>
-  );
+  )
 }
