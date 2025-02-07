@@ -11,10 +11,10 @@ const Component = () => {
 
 
 export const Route = createFileRoute("/_authenticated")({
-  beforeLoad: async ({ location }) => {
+  beforeLoad: async ({  }) => {
     // check if user is authenticated
-    // return { user: {name: "dmp"} };
-    return {user : null };
+    return { user: {name: "dmp"} };
+    // return {user : null };
   },
   component: Component,
 });

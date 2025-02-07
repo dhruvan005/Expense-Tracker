@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { useForm } from '@tanstack/react-form'
-import type { FieldApi } from '@tanstack/react-form'
+
 import { Label } from '@/components/ui/label'
 import { api } from '@/lib/api'
 import { RadioGroup } from '@/components/ui/radio-group'

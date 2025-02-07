@@ -10,7 +10,7 @@ function NavBar() {
     return (
         <>
         <div className="h-5"></div>
-        <div className="p-2 flex justify-center  gap-10 p-3 bg-transparent border border-2 items-center bg-zinc-900 w-fit m-auto rounded-md  ">
+        <div className=" flex justify-center  gap-10 p-3   border-2 items-center bg-zinc-900 w-fit m-auto rounded-md  ">
         <Link to="/" className="[&.active]:font-bold [&.active]:text-[18px]">
             Home
         </Link>
