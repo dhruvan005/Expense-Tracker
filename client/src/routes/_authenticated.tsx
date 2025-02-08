@@ -12,7 +12,7 @@ const Login = () => {
 
 const Component = () => {
   const { user } = Route.useRouteContext();
-  console.log(user)
+  // console.log(user)
   if (!user) {
     return <Login />;
   }
@@ -25,7 +25,7 @@ export const Route = createFileRoute("/_authenticated")({
 
     try {
       const data = await queryClient.fetchQuery(useQueryOptions);
-      
+
       return { user: data };
     } catch (error) {
       return { user: null };

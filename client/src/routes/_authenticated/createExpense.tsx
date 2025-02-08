@@ -16,7 +16,7 @@ function createExpense() {
   const form = useForm({
     defaultValues: {
       title: '',
-      amount: 0,
+      amount: '',
       method: '',
     },
     onSubmit: async ({ value }) => {
@@ -77,7 +77,7 @@ function createExpense() {
                   name={field.name}
                   value={field.state.value}
                   onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(Number(e.target.value))}
+                  onChange={(e) => field.handleChange(e.target.value)}
                 />
                 {field.state.meta.errors ? (
                   <em>{field.state.meta.errors}</em>

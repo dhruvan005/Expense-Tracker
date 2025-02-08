@@ -28,6 +28,7 @@ function App() {
     queryKey: ['totalSpent'],
     queryFn: getTotalSpent,
   })
+ 
 
   if (isError) {
     return <span>Error: {error.message}</span>
@@ -59,7 +60,7 @@ function App() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            Amount : {isPending ? 'Loading..' : data.totalSpent}
+            Amount : {isPending ? 'Loading..' : data.totalSpent }
           </CardContent>
         </Card>
       </div>

@@ -4,10 +4,12 @@
   "type": "module",
   "scripts": {
     "dev": "bun --watch run server/app.ts",
-    "start": "bun server/app.js"
+    "start": "bun server/app.js",
+    "migrate": "bun run ./server/db/migrate.ts"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "drizzle-kit": "^0.30.4"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
@@ -15,7 +17,11 @@
   "dependencies": {
     "@hono/zod-validator": "^0.4.2",
     "@kinde-oss/kinde-typescript-sdk": "^2.9.1",
+    "@types/pg": "^8.11.11",
+    "drizzle-orm": "^0.39.2",
     "hono": "^4.6.20",
+    "pg": "^8.13.1",
+    "postgres": "^3.4.5",
     "zod": "^3.24.1"
   }
 }

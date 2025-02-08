@@ -1,56 +1,85 @@
 import { Hono } from "hono";
 import { z } from "zod";
 import { zValidator } from "@hono/zod-validator";
+import { getUser } from "../kinde"
+import { db } from "../db"
+import { expenses as expenseTable } from "../db/schema/expenses";
+import { desc, eq, sum, and } from "drizzle-orm"
+
 
 const expanseSchema = z.object({
     id: z.number().int().positive().min(1),
     title: z.string().min(3).max(100),
-    amount: z.number().int().positive(),
-    method : z.string()
+    amount: z.string(),
+    method: z.string()
 })
 
 type Expense = z.infer<typeof expanseSchema>
 
 const createPostSchema = expanseSchema.omit({ id: true })
 
-const fakeExpenses: Expense[] = [
-    { id: 1, title: "Groceries", amount: 100 , method : "upi"},
-    { id: 2, title: "Rent", amount: 1000 , method : "card"},
-    { id: 3, title: "Internet", amount: 50 , method : "cash"},
-    { id: 4, title: "Electricity", amount: 150 , method : "upi"},
-    { id: 5, title: "Water", amount: 20 , method : "card"},
-]
+
 
 export const expensesRoute = new Hono()
-    .get("/", async (c) => {
-        return c.json({ expenses: fakeExpenses })
-    })
-    .get("/totalSpent", async (c) => {
-        
-        const totalSpent = fakeExpenses.reduce((acc, expense) => acc + expense.amount, 0)
-        return c.json({ totalSpent })
-    })
-    .post("/", zValidator("json", createPostSchema), async (c) => {
+    .get("/", getUser, async (c) => {
+        const user = c.var.user
+        console.log("inside expense get route ", user)
+        const expense = await db
+            .select()
+            .from(expenseTable)
+            .where(eq(expenseTable.userId, user.id))
+            .orderBy(desc(expenseTable.createdAt))
+            .limit(50)
 
-        const expense = await c.req.valid("json")
-        fakeExpenses.push({ ...expense, id: fakeExpenses.length + 1 })
-        return c.json(fakeExpenses)
+
+        return c.json({ expenses: expense })
     })
-    .get("/:id{[0-9]+}", async (c) => {
-        const id = Number.parseInt(c.req.param("id"))
-        const expense = fakeExpenses.find(expense => expense.id === id)
+    .get("/totalSpent", getUser, async (c) => {
+        const user = c.var.user;
+        const totalSpent = await db
+            .select({ totalSpent: sum(expenseTable.amount) })
+            .from(expenseTable)
+            .where(eq(expenseTable.userId, user.id))
+            .limit(1)
+            .then(res => res[0])
+        return c.json(totalSpent)
+    })
+    .post("/", getUser, zValidator("json", createPostSchema), async (c) => {
+        const user = c.var.user
+        const expense = await c.req.valid("json")
+        console.log("inside post route : ", user, "expense : ", expense)
+        const newExpense = await db
+            .insert(expenseTable)
+            .values({ ...expense, userId: user.id })
+            .returning()
+
+        return c.json(newExpense)
+    }).get("/:id{[0-9]+}", getUser, async (c) => {
+        const id = Number.parseInt(c.req.param('id'))
+        const user = c.var.user;
+        const expense = await db
+            .select()
+            .from(expenseTable)
+            .where(and(eq(expenseTable.userId, user.id), eq(expenseTable.id, id)))
+            .limit(1)
+            .then(res => res[0])
         if (!expense) {
             return c.status(404)
         }
-
         return c.json({ expense })
     })
-    .delete("/:id{[0-9]+}", async (c) => {
-        const id = Number.parseInt(c.req.param("id"))
-        const index = fakeExpenses.findIndex(expense => expense.id === id)
-        if (index === -1) {
+    .delete("/:id{[0-9]+}", getUser, async (c) => {
+        const id = Number.parseInt(c.req.param('id'))
+        const user = c.var.user;
+        const deleteExpense = await db
+            .delete(expenseTable)
+            .where(and(eq(expenseTable.userId, user.id), eq(expenseTable.id, id)))
+            .returning()
+            .then(res => res[0])
+
+        if (!deleteExpense) {
             return c.notFound()
         }
-        const deleteExpense = fakeExpenses.splice(index, 1)[0];
+
         return c.json({ expense: deleteExpense })
     })
