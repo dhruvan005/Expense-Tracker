@@ -7,7 +7,7 @@ import {
 import { type Context } from "hono";
 import { getCookie, setCookie, deleteCookie } from "hono/cookie";
 import { createMiddleware } from "hono/factory";
-import { z } from "zod";
+
 // Client for authorization code flow
 export const kindeClient = createKindeServerClient(GrantType.AUTHORIZATION_CODE, {
     authDomain: process.env.KINDE_DOMAIN!,

@@ -9,14 +9,11 @@ const app = new Hono()
 app.use(logger())
 app.use('/api/*', cors())
 
-
-//  for always running the client app 
-
 const apiRoutes = app.basePath("/api").route("/expenses", expensesRoute).route("/" , authRoute)
 
-
+// serving the static file , for avoiding CORS Error 
 app.use('*', serveStatic({ root: './client/dist' }))
 app.get('*', serveStatic({ path: './client/dist/index.html' }))
 
-export default app
+export default app;
 export type ApiRoutes = typeof apiRoutes;

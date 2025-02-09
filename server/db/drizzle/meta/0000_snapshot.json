@@ -1,6 +1,6 @@
 {
-  "id": "f53bf305-bf86-4544-ab8f-3a32f51b2a3c",
-  "prevId": "230f3c38-890b-4646-b75e-3db223e0bf3f",
+  "id": "c0cdfba9-b713-4a4c-9eac-cdead7dc7ee6",
+  "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -31,11 +31,24 @@
           "type": "numeric(12, 2)",
           "primaryKey": false,
           "notNull": true
+        },
+        "method": {
+          "name": "method",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
         }
       },
       "indexes": {
-        "name_idx": {
-          "name": "name_idx",
+        "userId_idx": {
+          "name": "userId_idx",
           "columns": [
             {
               "expression": "userId",

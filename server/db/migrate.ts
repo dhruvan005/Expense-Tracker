@@ -10,7 +10,7 @@ async function main() {
     console.log("Running migrations...");
 
     await migrate(db, {
-        migrationsFolder: "./drizzle"
+        migrationsFolder: "./server/db/drizzle"
     });
 
     console.log("Migrations completed!");
