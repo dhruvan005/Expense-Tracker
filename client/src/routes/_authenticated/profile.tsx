@@ -11,7 +11,7 @@ export const Route = createFileRoute("/_authenticated/profile")({
 
 function Profile() {
   const { isPending, isError, data, error } = useQuery(useQueryOptions);
-  console.log(isPending);
+  // console.log(isPending);
   return (
     <>
       <div className="h-10"></div>

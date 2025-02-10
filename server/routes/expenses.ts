@@ -1,23 +1,10 @@
 import { Hono } from "hono";
-import { z } from "zod";
+import { createExpenseSchema } from "../Types"
 import { zValidator } from "@hono/zod-validator";
 import { getUser } from "../kinde"
 import { db } from "../db"
 import { expenses as expenseTable } from "../db/schema/expenses";
 import { desc, eq, sum, and } from "drizzle-orm"
-
-
-const expanseSchema = z.object({
-    id: z.number().int().positive().min(1),
-    title: z.string().min(3).max(100),
-    amount: z.string(),
-    method: z.string()
-})
-
-type Expense = z.infer<typeof expanseSchema>
-
-const createPostSchema = expanseSchema.omit({ id: true })
-
 
 
 export const expensesRoute = new Hono()
@@ -30,8 +17,6 @@ export const expensesRoute = new Hono()
             .where(eq(expenseTable.userId, user.id))
             .orderBy(desc(expenseTable.createdAt))
             .limit(50)
-
-
         return c.json({ expenses: expense })
     })
     .get("/totalSpent", getUser, async (c) => {
@@ -44,7 +29,7 @@ export const expensesRoute = new Hono()
             .then(res => res[0])
         return c.json(totalSpent)
     })
-    .post("/", getUser, zValidator("json", createPostSchema), async (c) => {
+    .post("/", getUser, zValidator("json", createExpenseSchema), async (c) => {
         const user = c.var.user
         const expense = await c.req.valid("json")
         // console.log("inside post route : ", user, "expense : ", expense)
@@ -52,7 +37,6 @@ export const expensesRoute = new Hono()
             .insert(expenseTable)
             .values({ ...expense, userId: user.id })
             .returning()
-
         return c.json(newExpense)
     }).get("/:id{[0-9]+}", getUser, async (c) => {
         const id = Number.parseInt(c.req.param('id'))

@@ -1,33 +1,34 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { useForm } from '@tanstack/react-form'
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useForm } from "@tanstack/react-form";
+import { z } from "zod";
+import { Label } from "@/components/ui/label";
+import { api } from "@/lib/api";
+import { RadioGroup } from "@/components/ui/radio-group";
+import { createExpenseSchema } from "@server/Types";
 
-import { Label } from '@/components/ui/label'
-import { api } from '@/lib/api'
-import { RadioGroup } from '@/components/ui/radio-group'
-
-export const Route = createFileRoute('/_authenticated/createExpense')({
+export const Route = createFileRoute("/_authenticated/createExpense")({
   component: createExpense,
-})
+});
 
 function createExpense() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const form = useForm({
     defaultValues: {
-      title: '',
-      amount: '',
-      method: '',
+      title: "",
+      amount: "",
+      method: "",
     },
     onSubmit: async ({ value }) => {
-      console.log('value', value)
-      const res = await api.expenses.$post({ json: value })
+      console.log("value", value);
+      const res = await api.expenses.$post({ json: value });
       if (!res.ok) {
-        throw new Error('Failed to create expense')
+        throw new Error("Failed to create expense");
       }
-      navigate({ to: '/expenses' })
+      navigate({ to: "/expenses" });
     },
-  })
+  });
   return (
     <>
       <div className="h-10"></div>
@@ -36,13 +37,16 @@ function createExpense() {
         <div className="h-5"></div>
         <form
           onSubmit={(e) => {
-            e.preventDefault()
-            e.stopPropagation()
-            form.handleSubmit()
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
           }}
         >
           <form.Field
             name="title"
+            validators={{
+              onChange: z.string().nonempty("Title is required").min(2),
+            }}
             children={(field) => (
               <div>
                 <Label htmlFor="title" className="text-[18px]">
@@ -66,6 +70,14 @@ function createExpense() {
           <div className="h-5"></div>
           <form.Field
             name="amount"
+            validators={{
+              onChange: z
+                .string()
+                .nonempty("Amount is required")
+                .refine((val) => parseFloat(val) > 0, {
+                  message: "Amount must be greater than zero",
+                }),
+            }}
             children={(field) => (
               <div>
                 <Label htmlFor="amount" className="text-[18px]">
@@ -73,6 +85,7 @@ function createExpense() {
                 </Label>
                 <Input
                   placeholder="e.g 100"
+                  type="number"
                   id={field.name}
                   name={field.name}
                   value={field.state.value}
@@ -88,6 +101,9 @@ function createExpense() {
           <div className="h-5"></div>
           <form.Field
             name="method"
+            validators={{
+              onChange: z.string().nonempty("Method is required").min(1),
+            }}
             children={(field) => (
               <>
                 <Label htmlFor="method" className="text-[18px]">
@@ -166,12 +182,12 @@ function createExpense() {
                 variant="secondary"
                 className="bg-[#202022] cursor-pointer hover:bg-[#0A0A0A]"
               >
-                {isSubmitting ? '...' : 'Create'}
+                {isSubmitting ? "..." : "Create"}
               </Button>
             )}
           />
         </form>
       </div>
     </>
-  )
+  );
 }
