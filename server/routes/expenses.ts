@@ -23,7 +23,7 @@ const createPostSchema = expanseSchema.omit({ id: true })
 export const expensesRoute = new Hono()
     .get("/", getUser, async (c) => {
         const user = c.var.user
-        console.log("inside expense get route ", user)
+        // console.log("inside expense get route ", user)
         const expense = await db
             .select()
             .from(expenseTable)
@@ -47,7 +47,7 @@ export const expensesRoute = new Hono()
     .post("/", getUser, zValidator("json", createPostSchema), async (c) => {
         const user = c.var.user
         const expense = await c.req.valid("json")
-        console.log("inside post route : ", user, "expense : ", expense)
+        // console.log("inside post route : ", user, "expense : ", expense)
         const newExpense = await db
             .insert(expenseTable)
             .values({ ...expense, userId: user.id })

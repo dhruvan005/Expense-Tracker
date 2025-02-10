@@ -22,4 +22,5 @@ export const useQueryOptions = queryOptions({
     queryKey: ["getCurrentUser"],
     queryFn: getCurrentUser,
     staleTime: Infinity
+    // staleTime infinity means that the data will never be refetched untill the user manually refetches it
 });
