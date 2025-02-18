@@ -1,6 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
 import { DotPattern } from "@/components/magicui/dot-pattern";
+import { Link } from "@tanstack/react-router";
+import { Button } from "@/components/ui/button";
+import { api } from "@/lib/api";
+import { useQuery } from "@tanstack/react-query";
 
 export const Route = createFileRoute("/_authenticated/")({
   component: App,
@@ -12,8 +16,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { api } from "@/lib/api";
-import { useQuery } from "@tanstack/react-query";
 
 async function getTotalSpent() {
   const res = await api.expenses["totalSpent"].$get();
@@ -37,7 +39,13 @@ function App() {
       return totalSpent;
     }
     else {
-      return "Add Expense";
+      return (
+        <>
+        <Link to="/createExpense">
+            <Button className=" cursor-pointer hover:bg-[#202022]">Create Expense</Button>
+          </Link>
+        </>
+      );
     }
   };
 
