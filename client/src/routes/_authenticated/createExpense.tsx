@@ -7,6 +7,14 @@ import { Label } from "@/components/ui/label";
 import { api } from "@/lib/api";
 import { RadioGroup } from "@/components/ui/radio-group";
 import { createExpenseSchema } from "@server/Types";
+import { Calendar } from "@/components/ui/calendar";
+import { CalendarIcon } from "lucide-react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/createExpense")({
   component: createExpense,
@@ -32,10 +40,11 @@ function createExpense() {
   return (
     <>
       <div className="h-10"></div>
-      <div className="max-w-[80vw] md:max-w-xl m-auto">
+      <div className=" max-w-[70vw] m-auto w-[50vw]">
         <div className="text-2xl font-bold ">Create the Expense</div>
         <div className="h-5"></div>
         <form
+        className=""
           onSubmit={(e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -173,6 +182,37 @@ function createExpense() {
             )}
           />
           <div className="h-5"></div>
+
+          {/* <form.Field
+            name="date"
+            validators={{
+              onChange: createExpenseSchema.shape.date,
+            }}
+            children={(field) => (
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant={"outline"}
+                    className={cn(
+                      "w-[280px] justify-start text-left font-normal",
+                      !date && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon />
+                    {date ? format(date, "PPP") : <span>Pick a date</span>}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0">
+                  <Calendar
+                    mode="single"
+                    selected={field.state.value}
+                    onSelect={(e) => field.handleChange(e.target.value)}
+                  />
+                </PopoverContent>
+              </Popover>
+            )}
+          /> */}
+
           <form.Subscribe
             selector={(state) => [state.canSubmit, state.isSubmitting]}
             children={([canSubmit, isSubmitting]) => (
