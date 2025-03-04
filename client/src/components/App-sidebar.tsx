@@ -42,9 +42,12 @@ const items = [
 
 export function AppSidebar() {
   return (
-    <Sidebar>
+    <Sidebar side="left">
+      <div  className="p-3">
+
       <SidebarContent>
         <SidebarGroup>
+          
           <SidebarGroupLabel>Expense App </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -62,6 +65,7 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+              </div>
     </Sidebar>
   );
 }

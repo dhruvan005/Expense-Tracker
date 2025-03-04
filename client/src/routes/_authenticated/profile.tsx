@@ -14,7 +14,7 @@ function Profile() {
   // console.log(isPending);
   return (
     <>
-      <div className="h-10"></div>
+     
       <div className="max-w-[80vw] md:max-w-3xl m-auto border rounded-md">
         <div className="text-gray-300 md:p-10 p-5">
           <h1 className="md:text-2xl text-xl font-bold">Profile</h1>

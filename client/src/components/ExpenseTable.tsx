@@ -1,4 +1,4 @@
-import { Skeleton } from '@/components/ui/skeleton'
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -7,31 +7,30 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table'
+} from "@/components/ui/table";
 
-
-
-export function ExpenseTable( {data, isPending} : {data: any, isPending: boolean}) {
-
-
- 
-
+export function ExpenseTable({
+  data,
+  isPending,
+}: {
+  data: any;
+  isPending: boolean;
+}) {
   const getMethodColor = (method: string) => {
     switch (method.toLowerCase()) {
-      case 'upi':
-        return 'bg-red-500/20 hover:bg-red-500/30'
-      case 'cash':
-        return 'bg-green-500/20 hover:bg-green-500/30'
-      case 'card':
-        return 'bg-blue-500/20 hover:bg-blue-500/30'
+      case "upi":
+        return "bg-red-500/20 hover:bg-red-500/30";
+      case "cash":
+        return "bg-green-500/20 hover:bg-green-500/30";
+      case "card":
+        return "bg-blue-500/20 hover:bg-blue-500/30";
       default:
-        return 'bg-gray-500/20 hover:bg-gray-500/30'
+        return "bg-gray-500/20 hover:bg-gray-500/30";
     }
-  }
+  };
 
   return (
     <>
-      <div className="h-10"></div>
       <Table className="max-w-[80vw] md:max-w-3xl m-auto border rounded-md">
         <TableCaption className="text-gray-300">
           A list of your recent Expenses.
@@ -90,5 +89,5 @@ export function ExpenseTable( {data, isPending} : {data: any, isPending: boolean
         </TableBody>
       </Table>
     </>
-  )
+  );
 }

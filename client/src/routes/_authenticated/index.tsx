@@ -52,28 +52,17 @@ function App() {
   if (isError) {
     return <span>Error: {error.message}</span>;
   }
-  // const [totalSpent, setTotalSpent] = useState(0);
-  // useEffect(() => {
-  //   async function fetchTotal() {
-  //     // it can avoid the type error and also it can be used for type checking for the api routes
-  //     const res = await api.expenses["totalSpent"].$get();
-
-  //     const data = await res.json();
-
-  //     setTotalSpent(data.totalSpent);
-  //   }
-  //   fetchTotal();
-  // }, []);
+  
 
   return (
     <>
       <div className="relative  h-[600px] w-full  items-center justify-center overflow-hidden p-10">
-        <DotPattern
+        {/* <DotPattern
           glow={true}
           className={cn(
             "[mask-image:radial-gradient(700px_circle_at_center,white,transparent)] "
           )}
-        />
+        /> */}
         <div className="bg-background text-foreground min-h-screen">
           <div className="h-10"></div>
           <Card className="w-[350px] m-auto bg-card text-card-foreground">

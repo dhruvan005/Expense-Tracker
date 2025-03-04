@@ -30,12 +30,13 @@ function Expenses() {
 
   return (
     <>
-      <div className="h-10"></div>
       {data?.expenses.length === 0 ? (
-        <div className="flex justify-center items-center flex-col gap-3"> 
-        <div >No expenses found</div>
-        <Link to="/createExpense">
-            <Button className="bg-[#202022] cursor-pointer hover:bg-[#0A0A0A]">Create Expense</Button>
+        <div className="flex justify-center items-center flex-col gap-3">
+          <div>No expenses found</div>
+          <Link to="/createExpense">
+            <Button className="bg-[#202022] cursor-pointer hover:bg-[#0A0A0A]">
+              Create Expense
+            </Button>
           </Link>
         </div>
       ) : (
