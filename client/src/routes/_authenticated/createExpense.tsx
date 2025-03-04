@@ -39,12 +39,10 @@ function createExpense() {
   });
   return (
     <>
-      <div className="h-10"></div>
-      <div className=" max-w-[70vw] m-auto w-[50vw]">
-        <div className="text-2xl font-bold ">Create the Expense</div>
+      <div className="max-w-[90vw] md:max-w-[70vw] m-auto w-full md:w-[50vw] p-4 md:p-8">
+        <div className="text-xl md:text-2xl font-bold">Create Your Expense</div>
         <div className="h-5"></div>
         <form
-        className=""
           onSubmit={(e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -58,7 +56,7 @@ function createExpense() {
             }}
             children={(field) => (
               <div>
-                <Label htmlFor="title" className="text-[18px]">
+                <Label htmlFor="title" className="text-[16px] md:text-[18px]">
                   Expense Title
                 </Label>
                 <Input
@@ -89,7 +87,7 @@ function createExpense() {
             }}
             children={(field) => (
               <div>
-                <Label htmlFor="amount" className="text-[18px]">
+                <Label htmlFor="amount" className="text-[16px] md:text-[18px]">
                   Amount
                 </Label>
                 <Input
@@ -115,13 +113,13 @@ function createExpense() {
             }}
             children={(field) => (
               <>
-                <Label htmlFor="method" className="text-[18px]">
-                  Selcet Payment Method
+                <Label htmlFor="method" className="text-[16px] md:text-[18px]">
+                  Select Payment Method
                 </Label>
                 <div className="h-2"></div>
 
                 <RadioGroup
-                  className="flex ml-2 space-x-2"
+                  className="flex flex-col md:flex-row ml-2 space-y-2 md:space-y-0 md:space-x-2"
                   name={field.name}
                   value={field.state.value}
                   onChange={(e) =>
@@ -181,6 +179,7 @@ function createExpense() {
               </>
             )}
           />
+          
           <div className="h-5"></div>
 
           {/* <form.Field
